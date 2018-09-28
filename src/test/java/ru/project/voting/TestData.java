@@ -82,19 +82,12 @@ public class TestData {
         assertThat(actual).isEqualTo(expected);
     }
 
-    public static void assertMatch(Restaurant actual, Restaurant expected) {
-        assertThat(actual).isEqualTo(expected);
-    }
     public static void assertMatch(Iterable<Vote> actual, Vote... expected) {
         assertMatch(actual, Arrays.asList(expected));
     }
 
     public static void  assertMatch(Iterable<?> actual, Iterable<?> expected) {
         assertThat(actual).isEqualTo(expected);
-    }
-
-    public static ResultMatcher contentJson(Vote... expected) {
-        return content().json(writeValue(expected));
     }
 
     public static ResultMatcher contentJson(Restaurant... expected) {

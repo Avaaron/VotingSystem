@@ -1,6 +1,8 @@
 package ru.project.voting.web;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -43,6 +45,7 @@ class VoteRestControllerTest {
     private static final String REST_URL = VoteRestController.REST_URL + '/';
 
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
+    protected final Logger log = LoggerFactory.getLogger(getClass());
 
     static {
         CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
@@ -52,13 +55,13 @@ class VoteRestControllerTest {
      MockMvc mockMvc;
 
     @Autowired
-    VoteService voteService;
+    private VoteService voteService;
 
     @Autowired
-    CrudRestaurantRepository crudRestaurantRepository;
+    protected CrudRestaurantRepository crudRestaurantRepository;
 
     @Autowired
-    CrudVoteRepository crudVoteRepository;
+    private CrudVoteRepository crudVoteRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -74,8 +77,8 @@ class VoteRestControllerTest {
 
     @Test
     void getAllRestaurantsTest() throws Exception{
-        mockMvc.perform(get(REST_URL + "restaurants")
-                .with(userHttpBasic(USER_1)))
+        log.info("getAllRestaurantsTest");
+        mockMvc.perform(get(REST_URL + "restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -84,6 +87,7 @@ class VoteRestControllerTest {
 
     @Test
     void readMenu() throws Exception {
+        log.info("readMenu");
        mockMvc.perform(get(REST_URL + "menu")
                .contentType(MediaType.APPLICATION_JSON)
                .content(JsonUtil.writeValue(RESTAURANT_1))
@@ -95,6 +99,7 @@ class VoteRestControllerTest {
 
     @Test
     void votingCreateTest() throws Exception{
+        log.info("votingCreateTest");
         Vote created = getCreated();
         mockMvc.perform(get(REST_URL + "voting")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -107,6 +112,7 @@ class VoteRestControllerTest {
 
     @Test
     void votingUpdateTest() throws Exception{
+        log.info("votingUpdateTest");
         Vote updated = getUpdated();
         mockMvc.perform(get(REST_URL + "voting")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -118,7 +124,8 @@ class VoteRestControllerTest {
     }
 
     @Test
-    void deleteVote() throws Exception{
+    void deleteVoteTest() throws Exception{
+        log.info("deleteVoteTest");
         mockMvc.perform(get(REST_URL + "cancel")
                 .with(userHttpBasic(USER_2)))
                 .andDo(print())

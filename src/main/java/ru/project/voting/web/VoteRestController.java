@@ -42,7 +42,7 @@ public class VoteRestController {
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public List<Dish> readMenu(@RequestBody Restaurant restaurant) {
-        log.info("read menu {}", restaurant.toString());
+        log.info("readMenu {}", restaurant.toString());
         return dishService.getDihsesByDateAndRestaurant( LocalDate.of(2018, 9, 8), restaurant);
     }
 

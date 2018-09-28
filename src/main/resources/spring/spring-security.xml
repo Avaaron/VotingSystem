@@ -9,9 +9,9 @@
 
     <http pattern="/rest/vote/**" name="restSecurityFilterChain" create-session="stateless">
         <http-basic/>
-        <intercept-url pattern="/rest/vote/restaurants" access= "hasRole('ROLE_USER')" />
+        <intercept-url pattern="/rest/vote/restaurants" access= "isAnonymous()" />
+        <intercept-url pattern="/rest/vote/menu" access="isAuthenticated()"/>
         <intercept-url pattern="/rest/vote/voting" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/rest/vote/menu" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/rest/vote/cancel" access="hasRole('ROLE_USER')"/>
     </http>
 
