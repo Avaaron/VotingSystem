@@ -10,8 +10,10 @@ import ru.project.voting.model.Menu;
 import ru.project.voting.model.Restaurant;
 import ru.project.voting.repository.CrudRestaurantRepository;
 import ru.project.voting.service.DishService;
+import ru.project.voting.service.RestauantService;
 import ru.project.voting.service.VoteService;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class VoteRestController {
     VoteService voteService;
 
     @Autowired
-    CrudRestaurantRepository crudRestaurantRepository;
+    RestauantService restauantService;
 
     @Autowired
     DishService dishService;
@@ -36,7 +38,7 @@ public class VoteRestController {
     @RequestMapping(value = "/restaurants", method = RequestMethod.GET)
     public List<Restaurant> getAllRestaurants() {
         log.info("getAll");
-        return crudRestaurantRepository.findAll();
+        return restauantService.getAll();
     }
 
 

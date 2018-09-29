@@ -22,9 +22,9 @@ INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_USER', 100003),
   ('ROLE_USER', 100004);
 
-INSERT INTO restaurant (name)
-VALUES  ('Roga and Kopita'),
-  ('Pupkin obshepit');
+INSERT INTO restaurant (name, user_id)
+VALUES  ('Roga and Kopita', 100000),
+  ('Pupkin obshepit', 100001);
 
 
 INSERT INTO menu (rest_id, menu_date) VALUES

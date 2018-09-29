@@ -29,7 +29,9 @@ CREATE TABLE user_roles
 
 CREATE TABLE restaurant (
   id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  name        VARCHAR   NOT NULL
+  name        VARCHAR   NOT NULL,
+  user_id     INTEGER   NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX rest_unique ON restaurant (name);
 

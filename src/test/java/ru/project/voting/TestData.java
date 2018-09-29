@@ -34,9 +34,9 @@ public class TestData {
 
     public static final int REST_ID1 = 100005;
     public static final int REST_ID2 = 100006;
-
-    public static final Restaurant RESTAURANT_1 = new Restaurant(REST_ID1, "Roga and Kopita");
-    public static final Restaurant RESTAURANT_2 = new Restaurant(REST_ID2, "Pupkin obshepit");
+    public static final int REST_ID_CREATED = 100019;
+    public static final Restaurant RESTAURANT_1 = new Restaurant(REST_ID1, "Roga and Kopita", ADMIN_1);
+    public static final Restaurant RESTAURANT_2 = new Restaurant(REST_ID2, "Pupkin obshepit", ADMIN_2);
 
     public static final Menu MENU_1 = new Menu(100007, RESTAURANT_1, TEST_DATE_USER_2);
     public static final Menu MENU_2 = new Menu(100008, RESTAURANT_2, TEST_DATE_USER_1);
@@ -46,18 +46,26 @@ public class TestData {
     public static final Dish DISH_3 = new Dish(100011, "Soup", 22);
     public static final Dish DISH_4 = new Dish(100012, "Egg", 111);
 
-
-
     public static final int VOTE_ID1 = 100017;
     public static final int VOTE_ID2 = 100018;
-
     public static final Vote VOTE_1 = getVote1WithId(new Vote(USER_2, MENU_1, TEST_DATE_USER_2), VOTE_ID1);
     public static final Vote VOTE_2 = getVote1WithId(new Vote(USER_1, MENU_2, TEST_DATE_USER_1), VOTE_ID2);
 
 
-
-
     public TestData() {
+    }
+
+    public static Restaurant getCreatedRestaurant() {
+        Restaurant rest = RESTAURANT_1;
+        rest.setId(null);
+        rest.setName("created");
+        return  rest;
+    }
+
+    public static Restaurant getUpdatedRestaurant() {
+        Restaurant restaurant = RESTAURANT_1;
+        restaurant.setName("updated");
+        return restaurant;
     }
 
     public static Vote getVote1WithId(Vote vote, int id) {

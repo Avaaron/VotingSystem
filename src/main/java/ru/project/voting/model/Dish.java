@@ -13,7 +13,7 @@ public class Dish extends AbstractNamedEntity{
     @Column(name = "price", nullable = false)
     private int price;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "menu_id", nullable = false)
     @NotNull
     @JsonIgnore
