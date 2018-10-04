@@ -13,16 +13,21 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.project.voting.TestUtil;
+import ru.project.voting.model.Dish;
+import ru.project.voting.model.Restaurant;
 import ru.project.voting.model.Vote;
-import ru.project.voting.repository.CrudRestaurantRepository;
-import ru.project.voting.repository.CrudVoteRepository;
+import ru.project.voting.repository.cruds.CrudVoteRepository;
+import ru.project.voting.service.DishService;
+import ru.project.voting.service.RestaurantService;
 import ru.project.voting.service.VoteService;
 import ru.project.voting.web.json.JsonUtil;
 
 import javax.annotation.PostConstruct;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -51,10 +56,13 @@ class VoteRestControllerTest {
      MockMvc mockMvc;
 
     @Autowired
+    private DishService dishService;
+
+    @Autowired
     private VoteService voteService;
 
     @Autowired
-    protected CrudRestaurantRepository crudRestaurantRepository;
+    private RestaurantService restaurantService;
 
     @Autowired
     private CrudVoteRepository crudVoteRepository;
@@ -86,7 +94,7 @@ class VoteRestControllerTest {
     void readMenu() throws Exception {
         log.info("readMenu");
         TestUtil.print(
-       mockMvc.perform(get(REST_URL + "menu")
+       mockMvc.perform(get(REST_URL + "vote/menu")
                .contentType(MediaType.APPLICATION_JSON)
                .content(JsonUtil.writeValue(RESTAURANT_1))
                .with(userHttpBasic(USER_1)))
@@ -98,35 +106,89 @@ class VoteRestControllerTest {
     void votingCreateTest() throws Exception{
         log.info("votingCreateTest");
         Vote created = getCreated();
-        mockMvc.perform(get(REST_URL + "voting")
+        mockMvc.perform(get(REST_URL + "vote/voting")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(MENU_2))
                 .with(userHttpBasic(USER_3)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        assertMatch(voteService.get(USER_ID3, LocalDate.now()), created);
+        assertEquals(voteService.get(USER_ID3, LocalDate.now()), created);
     }
 
     @Test
     void votingUpdateTest() throws Exception{
         log.info("votingUpdateTest");
         Vote updated = getUpdated();
-        mockMvc.perform(get(REST_URL + "voting")
+        mockMvc.perform(get(REST_URL + "vote/voting")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(MENU_2))
                 .with(userHttpBasic(USER_1)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        assertMatch(voteService.get(USER_ID1, TEST_DATE_USER_1), updated);
+        assertEquals(voteService.get(USER_ID1, TEST_DATE_USER_1), updated);
     }
 
     @Test
     void deleteVoteTest() throws Exception{
         log.info("deleteVoteTest");
-        mockMvc.perform(get(REST_URL + "cancel")
+        mockMvc.perform(get(REST_URL + "vote/cancel")
                 .with(userHttpBasic(USER_2)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        assertMatch(crudVoteRepository.findAll(), VOTE_2);
+        assertEquals(crudVoteRepository.findAll(), Arrays.asList(VOTE_2));
     }
+
+    @Test
+    void createRestaurant() throws Exception {
+        log.info("createRestaurantTest");
+        Restaurant created = getCreatedRestaurant();
+        mockMvc.perform(get(REST_URL + "admin/restaurant/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(created))
+                .with(userHttpBasic(ADMIN_1)))
+                .andDo(print())
+                .andExpect(status().isOk());
+        created.setId(NEW_ID);
+        created.setUser(ADMIN_1);
+        assertEquals(restaurantService.get(NEW_ID, ADMIN_ID1), created);
+    }
+
+    @Test
+    void createDish() throws Exception {
+        log.info("createDishTest");
+        Dish created = getCreatedDish();
+        mockMvc.perform(get(REST_URL + "admin/dish/add")
+                .param("menuId", "100007")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(created))
+                .with(userHttpBasic(ADMIN_1)))
+                .andDo(print())
+                .andExpect(status().isOk());
+        created.setMenu(MENU_1);
+        created.setId(NEW_ID);
+        assertEquals(dishService.get(NEW_ID, ADMIN_ID1), created);
+
+    }
+
+    @Test
+    void updateDish() throws Exception {
+        Dish updated = getUpdatedDish();
+        mockMvc.perform(get(REST_URL +"admin/dish/update")
+                .param("menuId", "100008")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(ADMIN_2)))
+                .andDo(print())
+                .andExpect(status().isOk());
+        updated.setMenu(MENU_2);
+        assertEquals(dishService.get(updated.getId(), ADMIN_ID2), updated);
+    }
+
+    @Test
+    void deleteDish() throws Exception {
+        mockMvc.perform(get(REST_URL + "admin/dish/update" + "/" + DISH_ID4)
+                .with(userHttpBasic(ADMIN_1)))
+                .andExpect(status().isOk());
+    }
+
 }

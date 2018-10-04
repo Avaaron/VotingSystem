@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.project.voting.model.Vote;
+import ru.project.voting.repository.cruds.CrudUserRepository;
+import ru.project.voting.repository.cruds.CrudVoteRepository;
 
 import java.time.LocalDate;
 

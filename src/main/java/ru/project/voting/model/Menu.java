@@ -26,7 +26,6 @@ public class Menu extends AbstractBaseEntity {
         this.date = date;
     }
 
-
     public LocalDate getDate() {
         return date;
     }

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.project.voting.model.User;
-import ru.project.voting.repository.CrudUserRepository;
+import ru.project.voting.repository.cruds.CrudUserRepository;
 import ru.project.voting.web.LoggedUser;;
 
 @Service("userService")

@@ -1,4 +1,4 @@
-package ru.project.voting.repository;
+package ru.project.voting.repository.cruds;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

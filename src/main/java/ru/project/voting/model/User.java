@@ -1,7 +1,6 @@
 package ru.project.voting.model;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -89,6 +88,7 @@ public class User extends AbstractNamedEntity {
     public void setRoles(Collection<Role> roles) {
         this.roles = EnumSet.copyOf(roles);
     }
+
 
     @Override
     public String toString() {

@@ -3,8 +3,7 @@ package ru.project.voting.repository;
 import ru.project.voting.model.Restaurant;
 import ru.project.voting.model.Vote;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDate;;
 
 public interface VoteRepository {
 

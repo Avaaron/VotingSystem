@@ -2,15 +2,14 @@ package ru.project.voting.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import ru.project.voting.model.Vote;
-import ru.project.voting.repository.CrudVoteRepository;
+import ru.project.voting.repository.cruds.CrudVoteRepository;
 import ru.project.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.project.voting.TestData.*;
 
 
@@ -27,7 +26,7 @@ class VoteServiceTest extends AbstractServiceTest{
         log.info("updateTest");
         Vote updated = getUpdated();
         voteService.update(updated, USER_ID1);
-        assertMatch(voteService.get(USER_ID1, TEST_DATE_USER_1), updated);
+        assertEquals(voteService.get(USER_ID1, TEST_DATE_USER_1), updated);
     }
 
     @Test
@@ -35,7 +34,7 @@ class VoteServiceTest extends AbstractServiceTest{
         log.info("updateNotFoundWrongUserIdTest");
         Vote updated = getUpdated();
         voteService.update(updated, USER_ID2);
-        assertMatch(crudVoteRepository.findAll(), VOTE_1, updated);
+        assertEquals(crudVoteRepository.findAll(), Arrays.asList(VOTE_1, updated));
     }
 
     @Test
@@ -43,7 +42,7 @@ class VoteServiceTest extends AbstractServiceTest{
         log.info("createTest");
         Vote ceated = getCreated();
         voteService.create(new Vote(USER_3, MENU_2, LocalDate.now()), USER_ID3);
-        assertMatch(ceated, voteService.get(USER_ID3, LocalDate.now()));
+        assertEquals(ceated, voteService.get(USER_ID3, LocalDate.now()));
     }
 
     @Test
@@ -52,7 +51,7 @@ class VoteServiceTest extends AbstractServiceTest{
         Vote actual = voteService.get(USER_ID2, TEST_DATE_USER_2);
         Vote expected = VOTE_1;
         expected.setId(VOTE_ID1);
-        assertMatch(actual, expected);
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -61,7 +60,7 @@ class VoteServiceTest extends AbstractServiceTest{
         boolean expected = false;
         Vote received = voteService.get(USER_ID1, TEST_DATE_USER_2);
         if(received == null) expected = true;
-        assertThat(true).isEqualTo(expected);
+        assertEquals(true, expected);
     }
 
     @Test
@@ -70,7 +69,7 @@ class VoteServiceTest extends AbstractServiceTest{
         boolean expected = false;
         Vote received = voteService.get(USER_ID2, LocalDate.now());
         if(received == null) expected = true;
-        assertThat(true).isEqualTo(expected);
+        assertEquals(true, expected);
     }
 
 
@@ -80,7 +79,7 @@ class VoteServiceTest extends AbstractServiceTest{
         voteService.delete(VOTE_ID1, USER_ID2);
         Vote vote = VOTE_2;
         vote.setId(VOTE_ID2);
-        assertMatch(crudVoteRepository.findAll(), vote);
+        assertEquals(crudVoteRepository.findAll(), Arrays.asList(vote));
     }
 
     @Test
@@ -102,7 +101,7 @@ class VoteServiceTest extends AbstractServiceTest{
         log.info("saveOrUpdateUserVoteVoiceExistTest");
         Vote updated = getUpdated();
         voteService.saveOrUpdateUserVote(USER_ID1, MENU_1, TEST_SEPARATED_TIME_MAX);
-        assertMatch(voteService.get(USER_ID1, TEST_DATE_USER_1), updated);
+        assertEquals(voteService.get(USER_ID1, TEST_DATE_USER_1), updated);
     }
 
     @Test
@@ -110,7 +109,7 @@ class VoteServiceTest extends AbstractServiceTest{
         log.info("saveOrUpdateUserVoteVoiceNotExistTest");
         Vote created = getCreated();
         voteService.saveOrUpdateUserVote(USER_ID3, MENU_2, TEST_SEPARATED_TIME_MAX);
-        assertMatch(voteService.get(USER_ID3, LocalDate.now()), created);
+        assertEquals(voteService.get(USER_ID3, LocalDate.now()), created);
     }
 
     @Test
@@ -119,20 +118,20 @@ class VoteServiceTest extends AbstractServiceTest{
         voteService.cancelVote(USER_ID2, TEST_DATE_USER_2, TEST_SEPARATED_TIME_MAX);
         Vote vote = VOTE_2;
         vote.setId(VOTE_ID2);
-        assertMatch(crudVoteRepository.findAll(), vote);
+        assertEquals(crudVoteRepository.findAll(), Arrays.asList(vote));
     }
 
     @Test
     void cancelVoteAfterSeparatedTime() {
         log.info("cancelVoteAfterSeparatedTimeTest");
         voteService.cancelVote(USER_ID2, TEST_DATE_USER_2, TEST_SEPARATED_TIME_MIN);
-        assertMatch(crudVoteRepository.findAll(), VOTE_1, VOTE_2);
+        assertEquals(crudVoteRepository.findAll(), Arrays.asList(VOTE_1, VOTE_2));
     }
 
     @Test
     void cancelVoteVoiceNotFound() {
         log.info("cancelVoteVoiceNotFoundTest");
         voteService.cancelVote(USER_ID1, TEST_DATE_USER_2, TEST_SEPARATED_TIME_MAX);
-        assertMatch(crudVoteRepository.findAll(), VOTE_1, VOTE_2);
+        assertEquals(crudVoteRepository.findAll(), Arrays.asList(VOTE_1, VOTE_2));
     }
 }

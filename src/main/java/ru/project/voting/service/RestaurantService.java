@@ -9,7 +9,8 @@ import ru.project.voting.repository.RestaurantRepository;
 import java.util.List;
 
 @Service
-public class RestauantService {
+public class RestaurantService {
+
     @Autowired
     private RestaurantRepository restaurantRepository;
 

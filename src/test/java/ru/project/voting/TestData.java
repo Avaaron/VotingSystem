@@ -1,16 +1,11 @@
 package ru.project.voting;
 
-import org.springframework.test.web.servlet.ResultMatcher;
 import ru.project.voting.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static ru.project.voting.model.AbstractBaseEntity.START_SEQ;
-import static ru.project.voting.web.json.JsonUtil.writeValue;
 
 public class TestData {
     public static final int ADMIN_ID1 = START_SEQ;     //100000
@@ -38,13 +33,24 @@ public class TestData {
     public static final Restaurant RESTAURANT_1 = new Restaurant(REST_ID1, "Roga and Kopita", ADMIN_1);
     public static final Restaurant RESTAURANT_2 = new Restaurant(REST_ID2, "Pupkin obshepit", ADMIN_2);
 
-    public static final Menu MENU_1 = new Menu(100007, RESTAURANT_1, TEST_DATE_USER_2);
-    public static final Menu MENU_2 = new Menu(100008, RESTAURANT_2, TEST_DATE_USER_1);
 
-    public static final Dish DISH_1 = new Dish(100009, "Meat", 150);
-    public static final Dish DISH_2 = new Dish(100010, "Borsh", 333);
-    public static final Dish DISH_3 = new Dish(100011, "Soup", 22);
-    public static final Dish DISH_4 = new Dish(100012, "Egg", 111);
+    public static final int MENU_ID1 = 100007;
+    public static final int MENU_ID2 = 100008;
+    public static final Menu MENU_1 = new Menu(MENU_ID1, RESTAURANT_1, TEST_DATE_USER_2);
+    public static final Menu MENU_2 = new Menu(MENU_ID2, RESTAURANT_2, TEST_DATE_USER_1);
+
+    public static final int DISH_ID1 = 100009;
+    public static final int DISH_ID2 = 100010;
+    public static final int DISH_ID3 = 100011;
+    public static final int DISH_ID4 = 100012;
+    public static final int DISH_ID5 = 100013;
+
+    public static final Dish DISH_1 = getDishWithMenu(new Dish(DISH_ID1, "Meat", 150), MENU_1);
+    public static final Dish DISH_2 = getDishWithMenu(new Dish(DISH_ID2, "Borsh", 333), MENU_1);
+    public static final Dish DISH_3 = getDishWithMenu(new Dish(DISH_ID3, "Soup", 22), MENU_1);
+    public static final Dish DISH_4 = getDishWithMenu(new Dish(DISH_ID4, "Egg", 111), MENU_1);
+    public static final Dish DISH_5 = getDishWithMenu(new Dish(DISH_ID5, "cheese soup", 22), MENU_2);
+
 
     public static final int VOTE_ID1 = 100017;
     public static final int VOTE_ID2 = 100018;
@@ -55,10 +61,29 @@ public class TestData {
     public TestData() {
     }
 
+    public static Dish getDishWithMenu(Dish dish, Menu menu){
+        dish.setMenu(menu);
+        return dish;
+    }
+
+    public static Dish getCreatedDish() {
+        Dish created = new Dish(null, "created", 100);
+        return created;
+    }
+
+    public static Dish getUpdatedDish() {
+        Dish updated = new Dish(100015, "update", 1000);
+        return updated;
+    }
+
+    public static Menu getCreatedMenu() {
+        Menu created = new Menu(100019, RESTAURANT_1, LocalDate.now());
+        return created;
+    }
+
+    public static final int NEW_ID = 100019;
     public static Restaurant getCreatedRestaurant() {
-        Restaurant rest = RESTAURANT_1;
-        rest.setId(null);
-        rest.setName("created");
+        Restaurant rest = new Restaurant(null, "Created", null);
         return  rest;
     }
 
@@ -83,26 +108,5 @@ public class TestData {
         Vote vote = new Vote(USER_3, MENU_2, LocalDate.now());
         vote.setId(100019);
         return vote;
-    }
-
-
-    public static void assertMatch(Vote actual, Vote expected) {
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    public static void assertMatch(Iterable<Vote> actual, Vote... expected) {
-        assertMatch(actual, Arrays.asList(expected));
-    }
-
-    public static void  assertMatch(Iterable<?> actual, Iterable<?> expected) {
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    public static ResultMatcher contentJson(Restaurant... expected) {
-        return content().json(writeValue(Arrays.asList(expected)));
-    }
-
-    public static ResultMatcher contentJson(Dish... expected) {
-        return content().json(writeValue(Arrays.asList(expected)));
     }
 }

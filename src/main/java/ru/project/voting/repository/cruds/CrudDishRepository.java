@@ -1,6 +1,7 @@
-package ru.project.voting.repository;
+package ru.project.voting.repository.cruds;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,6 +12,7 @@ import ru.project.voting.model.Menu;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
@@ -24,13 +26,15 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     @Query("SELECT d FROM Dish d WHERE d.menu=:menu")
     List<Dish> findByMenu(@Param("menu") Menu menu);
 
-    @Transactional
     @Override
-    @Secured("ROLE_ADMIN")
-    Dish save(Dish entity);
+    Optional<Dish> findById(Integer id);
 
     @Transactional
     @Override
-    @Secured("ROLE_ADMIN")
-    void deleteById(Integer id);
+    Dish save(Dish dish);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Dish d WHERE d.id=:id")
+    int delete(@Param("id") int id);
 }
