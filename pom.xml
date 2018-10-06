@@ -38,8 +38,6 @@
         <hibernate-validator.version>6.0.10.Final</hibernate-validator.version>
         <javax-el.version>3.0.1-b10</javax-el.version>
 
-        <!--Tools-->
-        <ehcache.version>3.5.2</ehcache.version>
     </properties>
 
     <build>
@@ -101,8 +99,8 @@
                     </configuration>
                     <deployables>
                         <deployable>
-                            <groupId>ru.javawebinar</groupId>
-                            <artifactId>topjava</artifactId>
+                            <groupId>ru.project</groupId>
+                            <artifactId>voting</artifactId>
                             <type>war</type>
                             <properties>
                                 <context>${project.build.finalName}</context>
@@ -198,17 +196,6 @@
             <artifactId>javax.el</artifactId>
             <version>${javax-el.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.cache</groupId>
-            <artifactId>cache-api</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <scope>runtime</scope>
-            <version>${ehcache.version}</version>
         </dependency>
 
         <!--Web-->
