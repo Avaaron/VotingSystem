@@ -172,6 +172,7 @@ class VoteRestControllerTest {
 
     @Test
     void updateDish() throws Exception {
+        log.info("updateDishTest");
         Dish updated = getUpdatedDish();
         mockMvc.perform(get(REST_URL +"admin/dish/update")
                 .param("menuId", "100008")
@@ -186,9 +187,11 @@ class VoteRestControllerTest {
 
     @Test
     void deleteDish() throws Exception {
-        mockMvc.perform(get(REST_URL + "admin/dish/update" + "/" + DISH_ID4)
-                .with(userHttpBasic(ADMIN_1)))
+        log.info("deleteDishTest id = {}, user = {}", DISH_ID5, ADMIN_ID2);
+        mockMvc.perform(get(REST_URL + "admin/dish/delete" + "/" + DISH_ID5)
+                .with(userHttpBasic(ADMIN_2)))
                 .andExpect(status().isOk());
+        assertEquals(dishService.getAllByMenu(MENU_2), Arrays.asList(DISH_6, DISH_7, DISH_8));
     }
 
 }

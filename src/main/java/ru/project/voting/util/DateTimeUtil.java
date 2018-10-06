@@ -1,14 +1,11 @@
 package ru.project.voting.util;
 
 import org.springframework.util.StringUtils;
-import ru.project.voting.model.Menu;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);

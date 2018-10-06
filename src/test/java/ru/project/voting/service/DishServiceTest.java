@@ -56,7 +56,7 @@ class DishServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void createTest() {
+    void createDishTest() {
         Dish created = getCreatedDish();
         dishService.create(created, MENU_1, ADMIN_ID1);
         Dish actual = dishService.get(NEW_ID, ADMIN_ID1);
@@ -92,6 +92,16 @@ class DishServiceTest extends AbstractServiceTest {
     @Test
     void deleteNotFoundTest() {
         assertThrows(NotFoundException.class, () -> dishService.delete(DISH_ID5, ADMIN_ID1));
+    }
+
+    @Test
+    void deleteNotFoundWrongUser() {
+        assertThrows(NotFoundException.class, () -> dishService.delete(DISH_ID1, ADMIN_ID2));
+    }
+
+    @Test
+    void getAllByMenuTest() {
+        assertEquals(dishService.getAllByMenu(MENU_2), Arrays.asList(DISH_5, DISH_6, DISH_7, DISH_8));
     }
 
 

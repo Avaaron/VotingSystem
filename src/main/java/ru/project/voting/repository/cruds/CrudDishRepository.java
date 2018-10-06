@@ -31,10 +31,12 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
 
     @Transactional
     @Override
+    @Secured("ROLE_ADMIN")
     Dish save(Dish dish);
 
     @Modifying
     @Transactional
+    @Secured("ROLE_ADMIN")
     @Query("DELETE FROM Dish d WHERE d.id=:id")
     int delete(@Param("id") int id);
 }

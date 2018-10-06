@@ -44,13 +44,18 @@ public class TestData {
     public static final int DISH_ID3 = 100011;
     public static final int DISH_ID4 = 100012;
     public static final int DISH_ID5 = 100013;
+    public static final int DISH_ID6 = 100014;
+    public static final int DISH_ID7 = 100015;
+    public static final int DISH_ID8 = 100016;
 
     public static final Dish DISH_1 = getDishWithMenu(new Dish(DISH_ID1, "Meat", 150), MENU_1);
     public static final Dish DISH_2 = getDishWithMenu(new Dish(DISH_ID2, "Borsh", 333), MENU_1);
     public static final Dish DISH_3 = getDishWithMenu(new Dish(DISH_ID3, "Soup", 22), MENU_1);
     public static final Dish DISH_4 = getDishWithMenu(new Dish(DISH_ID4, "Egg", 111), MENU_1);
     public static final Dish DISH_5 = getDishWithMenu(new Dish(DISH_ID5, "cheese soup", 22), MENU_2);
-
+    public static final Dish DISH_6 = getDishWithMenu(new Dish(DISH_ID6, "Coffee", 22), MENU_2);
+    public static final Dish DISH_7 = getDishWithMenu(new Dish(DISH_ID7, "dessert", 22), MENU_2);
+    public static final Dish DISH_8 = getDishWithMenu(new Dish(DISH_ID8, "salad", 22), MENU_2);
 
     public static final int VOTE_ID1 = 100017;
     public static final int VOTE_ID2 = 100018;

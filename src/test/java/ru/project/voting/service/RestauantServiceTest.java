@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.project.voting.model.Restaurant;
 
-import java.util.Arrays;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.project.voting.TestData.*;
@@ -27,6 +25,7 @@ class RestauantServiceTest extends AbstractServiceTest {
 
     @Test
     void getTest() {
+        log.info("getRestaurantTest id = {}, userId = {}", REST_ID2, ADMIN_ID2);
         assertEquals(restauantService.get(REST_ID2, ADMIN_ID2),RESTAURANT_2);
     }
 

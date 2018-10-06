@@ -7,7 +7,6 @@ import org.springframework.util.Assert;
 import ru.project.voting.model.Dish;
 import ru.project.voting.model.Menu;
 import ru.project.voting.model.Restaurant;
-import ru.project.voting.model.User;
 import ru.project.voting.repository.DishRepository;
 import ru.project.voting.repository.MenuRepository;
 import ru.project.voting.util.exception.NotFoundException;
@@ -49,5 +48,10 @@ public class DishService {
 
     public Dish get(int id, int userId) {
         return dishRepository.get(id, userId);
+    }
+
+    public List<Dish> getAllByMenu(Menu menu) {
+        Assert.notNull(menu, "menu can`t be null");
+        return dishRepository.getAllByMenu(menu);
     }
 }

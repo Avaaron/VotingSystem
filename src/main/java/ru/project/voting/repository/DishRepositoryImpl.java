@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.project.voting.model.Dish;
 import ru.project.voting.model.Menu;
-import ru.project.voting.model.User;
 import ru.project.voting.repository.cruds.CrudDishRepository;
 
 import java.time.LocalDate;
